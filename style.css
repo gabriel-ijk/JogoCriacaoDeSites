@@ -51,7 +51,7 @@ li a {
     display: block;
     color: white;
     text-align: center;
-    padding: 20px 30px; /* Reduzi o padding para melhor visualização na parte superior */
+    padding: 20px 30px;
     text-decoration: none;
     transition: transform 0.5s ease;
 }
@@ -196,7 +196,7 @@ canvas {
 }
 .quiz-options {
     display: flex;
-    flex-direction: column; /* Change from row to column */
+    flex-direction: column;
     list-style-type: none;
     margin: 1rem 0;
 }
