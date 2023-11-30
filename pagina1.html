@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta name="keywords" content="Números,, Jogo da velha, Quiz, Jogos, Diversão">
+    <!-- Meta tags para informações sobre o site -->
+    <meta name="keywords" content="Números, Jogo da velha, Quiz, Jogos, Diversão">
     <meta name="author" content="Gabriel Camargo Scheffler">
-    <meta name="description" content="Um site que pussui jogos diertidos para o seu dia">
+    <meta name="description" content="Um site que possui jogos divertidos para o seu dia">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link para o arquivo de estilo CSS -->
     <link rel="stylesheet" href="style.css">
     <title>Joguinhos da info</title>
 </head>
 <body>
+    <!-- Cabeçalho do site -->
     <header>
         <h1>Bem vindo aos joguinhos da info</h1>
     </header>
+    <!-- Setas de navegação -->
     <div class="flechas">
         <nav>
             <ul>
+                <!-- Links para páginas anteriores e seguintes -->
                 <li><a href="pagina3.html">⇦</a></li>
                 <li><a href="pagina4.html">⇨</a></li>
             </ul>
         </nav>
     </div>
+    <!-- Título do jogo da velha -->
     <h4>Jogo da velha</h4>
+    <!-- Tabuleiro do jogo da velha -->
     <div id="velha-board">
-        
+        <!-- Células do tabuleiro, cada uma com um índice associado à posição no array gameBoard -->
         <div class="cell" onclick="makeMove(0)"></div>
         <div class="cell" onclick="makeMove(1)"></div>
         <div class="cell" onclick="makeMove(2)"></div>
@@ -34,62 +41,82 @@
         <div class="cell" onclick="makeMove(7)"></div>
         <div class="cell" onclick="makeMove(8)"></div>
     </div>
+    <!-- Script em JavaScript -->
     <script>
+        // Variáveis para rastrear o jogador atual ('X' ou 'O') e o estado do tabuleiro
         let currentPlayer = 'X';
-let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
 
-function makeMove(index) {
-    if (gameBoard[index] === '' && !checkWinner()) {
-        gameBoard[index] = currentPlayer;
-        renderBoard();
-        togglePlayer();
-        checkWinner();
-    }
-}
-
-function togglePlayer() {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-}
-
-function checkWinner() {
-    const winPatterns = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // colunas
-        [0, 4, 8], [2, 4, 6]             // diagonais
-    ];
-
-    for (const pattern of winPatterns) {
-        const [a, b, c] = pattern;
-        if (gameBoard[a] !== '' && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-            alert(`${gameBoard[a]} ganhou!`);
-            resetGame();
-            return true;
+        // Função chamada quando um jogador faz um movimento (clica em uma célula)
+        function makeMove(index) {
+            // Verifica se a célula está vazia e se o jogo ainda não tem um vencedor
+            if (gameBoard[index] === '' && !checkWinner()) {
+                // Atualiza o tabuleiro e a interface gráfica
+                gameBoard[index] = currentPlayer;
+                renderBoard();
+                // Alterna para o próximo jogador
+                togglePlayer();
+                // Verifica se há um vencedor após o movimento
+                checkWinner();
+            }
         }
-    }
 
-    if (!gameBoard.includes('')) {
-        alert('Velha!');
-        resetGame();
-        return true;
-    }
+        // Função para alternar entre os jogadores 'X' e 'O'
+        function togglePlayer() {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
 
-    return false;
-}
+        // Função para verificar se há um vencedor ou se é um empate
+        function checkWinner() {
+            // Possíveis padrões de vitória no tabuleiro
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
 
-function renderBoard() {
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach((cell, index) => {
-        cell.textContent = gameBoard[index];
-    });
-}
+            // Itera sobre os padrões de vitória
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                // Verifica se as células do padrão têm o mesmo símbolo e não estão vazias
+                if (gameBoard[a] !== '' && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                    // Exibe um alerta indicando o vencedor
+                    alert(`${gameBoard[a]} ganhou!`);
+                    // Reinicia o jogo
+                    resetGame();
+                    return true;
+                }
+            }
 
-function resetGame() {
-    currentPlayer = 'X';
-    gameBoard = ['', '', '', '', '', '', '', '', ''];
-    renderBoard();
-}
+            // Se não houver células vazias, é um empate
+            if (!gameBoard.includes('')) {
+                // Exibe um alerta indicando o empate
+                alert('Velha!');
+                // Reinicia o jogo
+                resetGame();
+                return true;
+            }
 
+            return false;
+        }
 
+        // Função para atualizar a interface gráfica do tabuleiro
+        function renderBoard() {
+            // Seleciona todas as células do tabuleiro
+            const cells = document.querySelectorAll('.cell');
+            // Atualiza o conteúdo de cada célula com base no estado atual do tabuleiro
+            cells.forEach((cell, index) => {
+                cell.textContent = gameBoard[index];
+            });
+        }
+
+        // Função para reiniciar o jogo
+        function resetGame() {
+            // Reinicia as variáveis do jogo e a interface gráfica
+            currentPlayer = 'X';
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            renderBoard();
+        }
     </script>
     
 </body>

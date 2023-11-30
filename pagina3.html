@@ -25,38 +25,46 @@
     <canvas id="canvas" width="1000" height="600"></canvas>
     <button class="buttondesenho" onclick="resetCanvas()">Recomeçar Desenho</button> 
     <script>
+        // Obtém o elemento canvas e seu contexto
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let painting = false;
 
+        // Função chamada quando o usuário pressiona o botão do mouse para começar a desenhar
         function startPosition(e) {
             painting = true;
             draw(e);
         }
 
+        // Função chamada quando o usuário solta o botão do mouse, encerrando o desenho
         function endPosition() {
             painting = false;
             ctx.beginPath();
         }
 
+        // Função para desenhar no canvas
         function draw(e) {
+            // Verifica se o usuário está desenhando
             if (!painting) return;
 
+            // Configurações do desenho (largura da linha, estilo, cor)
             ctx.lineWidth = 5;
             ctx.lineCap = 'round';
             ctx.strokeStyle = '#000';
 
-            // Use offsetX e offsetY para obter as coordenadas relativas ao canvas
+            // Desenha a linha no canvas
             ctx.lineTo(e.offsetX, e.offsetY);
             ctx.stroke();
             ctx.beginPath();
             ctx.moveTo(e.offsetX, e.offsetY);
         }
 
+        // Função para recomeçar o desenho, limpando o canvas
         function resetCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
+        // Adiciona ouvintes de eventos para responder às ações do usuário
         canvas.addEventListener('mousedown', startPosition);
         canvas.addEventListener('mouseup', endPosition);
         canvas.addEventListener('mousemove', draw);

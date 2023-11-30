@@ -30,55 +30,61 @@
     </div>
     <script>
         // Gera um número aleatório entre 1 e 100
-const secretNumber = Math.floor(Math.random() * 100) + 1;
-
-let attempts = 0;
-
-function checkGuess() {
-    const guessInput = document.getElementById('guessInput');
-    const message = document.getElementById('message');
-
-    // Obtém a adivinhação do jogador
-    const guess = parseInt(guessInput.value);
-
-    // Verifica se adivinhação é um número válido
-    if (isNaN(guess) || guess < 1 || guess > 100) {
-        message.textContent = 'Por favor, insira um número válido entre 1 e 100.';
-    } else {
-        attempts++;
-
-        // Verifica se adivinhação está correta
-        if (guess === secretNumber) {
-            message.textContent = `Parabéns! Você acertou em ${attempts} tentativas.`;
-            message.style.color = 'yellow';
-            disableInputAndButton();
-        } else {
-            // Fornece dicas ao jogador
-            const hint = guess < secretNumber ? 'Maior' : 'Menor';
-            message.textContent = `Errado. Tente um número ${hint}. Tentativas: ${attempts}`;
-            message.style.color = 'orange';
+        const secretNumber = Math.floor(Math.random() * 100) + 1;
+    
+        // Contador de tentativas
+        let attempts = 0;
+    
+        // Função chamada quando o botão "Verificar" é clicado
+        function checkGuess() {
+            // Obtém elementos do DOM
+            const guessInput = document.getElementById('guessInput');
+            const message = document.getElementById('message');
+    
+            // Obtém adivinhação do jogador convertendo para um número inteiro
+            const guess = parseInt(guessInput.value);
+    
+            // Verifica se a adivinhação é um número válido entre 1 e 100
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                message.textContent = 'Por favor, insira um número válido entre 1 e 100.';
+            } else {
+                // Incrementa o contador de tentativas
+                attempts++;
+    
+                // Verifica se a adivinhação está correta
+                if (guess === secretNumber) {
+                    message.textContent = `Parabéns! Você acertou em ${attempts} tentativas.`;
+                    message.style.color = 'yellow';
+                    // Desativa o input e o botão após acertar
+                    disableInputAndButton();
+                } else {
+                    // Fornece dicas ao jogador
+                    const hint = guess < secretNumber ? 'Maior' : 'Menor';
+                    message.textContent = `Errado. Tente um número ${hint}. Tentativas: ${attempts}`;
+                    message.style.color = 'orange';
+                }
+    
+                // Limpa o valor do input
+                guessInput.value = '';
+            }
         }
-
-        // Limpa o valor do input
-        guessInput.value = '';
-    }
-}
-
-function disableInputAndButton() {
-    const guessInput = document.getElementById('guessInput');
-    const button = document.querySelector('button');
-
-    guessInput.disabled = true;
-    button.disabled = true;
-}
-
-// Adiciona um ouvinte de evento para a tecla "Enter"
-document.getElementById('guessInput').addEventListener('keyup', function (event) {
-    if (event.key === 'Enter') {
-        checkGuess();
-    }
-});
-
+    
+        // Função para desativar o input e o botão após acertar
+        function disableInputAndButton() {
+            const guessInput = document.getElementById('guessInput');
+            const button = document.querySelector('button');
+    
+            guessInput.disabled = true;
+            button.disabled = true;
+        }
+    
+        // Adiciona um ouvinte de evento para a tecla "Enter" no input
+        document.getElementById('guessInput').addEventListener('keyup', function (event) {
+            if (event.key === 'Enter') {
+                // Chama a função checkGuess quando a tecla "Enter" é pressionada
+                checkGuess();
+            }
+        });
     </script>
 </body>
 </html>
