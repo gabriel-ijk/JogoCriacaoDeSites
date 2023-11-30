@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Joguinhos da info</title>
+</head>
+<body>
+    <header>
+        <h1>Bem vindo aos joguinhos da info</h1>
+    </header>
+    <div class="flechas">
+        <nav>
+            <ul>
+                <li><a href="pagina3.html">⇦</a></li>
+                <li><a href="pagina4.html">⇨</a></li>
+            </ul>
+        </nav>
+    </div>
+    <h4>Jogo da velha</h4>
+    <div id="velha-board">
+        
+        <div class="cell" onclick="makeMove(0)"></div>
+        <div class="cell" onclick="makeMove(1)"></div>
+        <div class="cell" onclick="makeMove(2)"></div>
+        <div class="cell" onclick="makeMove(3)"></div>
+        <div class="cell" onclick="makeMove(4)"></div>
+        <div class="cell" onclick="makeMove(5)"></div>
+        <div class="cell" onclick="makeMove(6)"></div>
+        <div class="cell" onclick="makeMove(7)"></div>
+        <div class="cell" onclick="makeMove(8)"></div>
+    </div>
+    <script>
+        let currentPlayer = 'X';
+let gameBoard = ['', '', '', '', '', '', '', '', ''];
+
+function makeMove(index) {
+    if (gameBoard[index] === '' && !checkWinner()) {
+        gameBoard[index] = currentPlayer;
+        renderBoard();
+        togglePlayer();
+        checkWinner();
+    }
+}
+
+function togglePlayer() {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+}
+
+function checkWinner() {
+    const winPatterns = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // colunas
+        [0, 4, 8], [2, 4, 6]             // diagonais
+    ];
+
+    for (const pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (gameBoard[a] !== '' && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+            alert(`${gameBoard[a]} ganhou!`);
+            resetGame();
+            return true;
+        }
+    }
+
+    if (!gameBoard.includes('')) {
+        alert('Velha!');
+        resetGame();
+        return true;
+    }
+
+    return false;
+}
+
+function renderBoard() {
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach((cell, index) => {
+        cell.textContent = gameBoard[index];
+    });
+}
+
+function resetGame() {
+    currentPlayer = 'X';
+    gameBoard = ['', '', '', '', '', '', '', '', ''];
+    renderBoard();
+}
+
+
+    </script>
+    
+</body>
+</html>
